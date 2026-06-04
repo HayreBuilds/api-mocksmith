@@ -1,0 +1,40 @@
+{
+  "name": "api-mocksmith",
+  "version": "1.0.0",
+  "description": "Instant mock API server from OpenAPI spec or plain English description. Realistic fake data, correct status codes, configurable delays.",
+  "bin": {
+    "api-mocksmith": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mock",
+    "api",
+    "openapi",
+    "testing",
+    "developer-tools",
+    "faker",
+    "server"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/api-mocksmith"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/api-mocksmith/issues"
+  }
+}
