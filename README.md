@@ -1,10 +1,24 @@
-# api-mocksmith
+# 🛠️ api-mocksmith
 
-> Instant mock API server from OpenAPI spec or plain English. Realistic fake data, correct status codes, configurable delays. Zero config.
+[![Build Status](https://img.shields.io/github/actions/workflow/status/HayreBuilds/api-mocksmith/ci.yml?branch=main)](https://github.com/HayreBuilds/api-mocksmith/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/HayreBuilds/api-mocksmith/pulls)
+[![Star History](https://img.shields.io/github/stars/HayreBuilds/api-mocksmith?style=social)](https://github.com/HayreBuilds/api-mocksmith/stargazers)
 
+**Instant mock API server from OpenAPI spec or plain English. Realistic fake data, correct status codes, configurable delays. Zero config.**
+
+> Frontend developers waiting on a backend team? Tired of hardcoding JSON? **api-mocksmith** spins up a fully functional CRUD API in seconds.
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Mock CRUD for one or more resources instantly
+npx api-mocksmith --resource "user, product, order" --port 4000
 ```
-$ api-mocksmith --resource "user, product, order" --port 4000
 
+```text
   ◆ api-mocksmith — user, product, order Mock API v1.0.0
 
   ✔ Listening on http://localhost:4000
@@ -15,127 +29,111 @@ $ api-mocksmith --resource "user, product, order" --port 4000
     POST    /api/users          — Create a user
     PUT     /api/users/{id}     — Update a user
     DELETE  /api/users/{id}     — Delete a user
-    GET     /api/products       ...
     ...
-
-  GET /mocksmith-routes — list all routes
-  Press Ctrl+C to stop
-
-$ curl http://localhost:4000/api/users | jq '.'
-{
-  "data": [
-    { "id": "a3f29b1c-...", "name": "Alice Johnson", "email": "alice.johnson@gmail.com", "status": "active", "created_at": "2024-11-23T14:32:01.000Z" },
-    ...
-  ],
-  "total": 8,
-  "page": 1,
-  "per_page": 8
-}
 ```
 
 ---
 
-## Install
+## ✨ Key Features
+
+- **⚡ Zero Configuration**: Start a full CRUD API with one command.
+- **📄 OpenAPI Support**: Pass a YAML/JSON spec and get an instant backend.
+- **🧠 Context-Aware Mocking**: Generates realistic names, emails, UUIDs, and images based on field names.
+- **⏱️ Network Simulation**: Add configurable delays to test loading states.
+- **📦 Zero Dependencies**: Built with pure Node.js `http` module. No `express`, no `faker`.
+
+---
+
+## 💻 Installation
 
 ```bash
 npm install -g api-mocksmith
-# or without installing:
-npx api-mocksmith --resource user
 ```
 
-## Usage
+---
 
+## 🛠️ Usage Examples
+
+### Instant CRUD for Multiple Resources
 ```bash
-# Mock CRUD for one or more resources
-api-mocksmith --resource user
 api-mocksmith --resource "product, cart, order, review"
+```
 
-# From an OpenAPI spec
-api-mocksmith ./openapi.yaml
-api-mocksmith ./api-spec.json
+### From an OpenAPI Specification
+```bash
+api-mocksmith ./openapi.yaml --port 3001 --delay 200
+```
 
-# Custom port
-api-mocksmith --resource user --port 4000
-
-# Realistic loading states (add response delay)
+### Advanced Options
+```bash
+# Test loading states with a 300ms delay
 api-mocksmith --resource user --delay 300
 
-# More items per list
-api-mocksmith --resource product --count 20
+# Generate larger data sets
+api-mocksmith --resource product --count 25
 
-# Verbose logging (see every request)
+# Log every request for debugging
 api-mocksmith --resource user --verbose
 ```
 
-## Response Format
+---
 
-**List endpoints** (`GET /resources`):
-```json
-{ "data": [...], "total": 8, "page": 1, "per_page": 8 }
-```
+## 🔍 How it Works: Smart Mocking
 
-**Single item** (`GET /resources/{id}`, `POST`, `PUT`):
-```json
-{ "id": "uuid", "name": "Alice Johnson", "email": "alice@example.com", ... }
-```
+The engine intelligently maps field names to data types:
+- `id` → UUID v4
+- `name`, `full_name` → Real-sounding human names
+- `email` → Valid-format email addresses
+- `avatar`, `photo` → Realistic Unsplash/Picsum URLs
+- `price`, `cost` → Formatted currency/decimal numbers
+- `status` → Weighted enums (`active`, `pending`, `inactive`)
+- `description`, `bio` → Multi-sentence lorem ipsum
 
-**Delete** (`DELETE /resources/{id}`): `204 No Content`
+---
 
-## Fake Data
-
-The generator produces realistic data based on field names:
-- `id` → UUID
-- `email` → realistic email addresses
-- `name`, `full_name` → real-sounding names
-- `username` → `alice_7823`
-- `created_at`, `updated_at` → ISO 8601 timestamps
-- `avatar`, `image`, `photo` → real Picsum image URLs
-- `price`, `amount`, `cost` → decimal numbers
-- `status` → active/inactive/pending/verified
-- `url`, `link` → realistic URLs
-- `description`, `bio`, `notes` → lorem ipsum prose
-- `city`, `country`, `address` → real locations
-
-## OpenAPI Support
-
-Pass any OpenAPI 3.x or Swagger 2.x spec (JSON or YAML):
-
-```bash
-api-mocksmith ./petstore.yaml --verbose
-api-mocksmith ./openapi.json --port 3001 --delay 200
-```
-
-Routes, response schemas, and status codes are read directly from the spec.
-
-## Options
+## ⚙️ Configuration Options
 
 | Option | Default | Description |
-|--------|---------|-------------|
-| `--port <n>` | 3001 | Port to listen on |
-| `--delay <ms>` | 0 | Response delay (simulate network) |
-| `--count <n>` | 8 | Items in list responses |
-| `--resource <name>` | — | Generate CRUD for named resources |
-| `--base-path <path>` | `/api` | API base path |
-| `--verbose` | false | Log all requests |
+|:---|:---|:---|
+| `--port <n>` | `3001` | Port to listen on |
+| `--delay <ms>` | `0` | Response delay (simulate network latency) |
+| `--count <n>` | `8` | Number of items in list responses |
+| `--resource <name>`| — | Generate CRUD for specific resources |
+| `--base-path <path>`| `/api` | API base path |
+| `--verbose` | `false` | Enable detailed request logging |
 
-## Zero Dependencies
+---
 
-Only Node.js built-ins. No `express`, no `faker`, no `json-server`. Pure `http` module.
+## 🤝 Contributing
 
-## License
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-MIT
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## Custom Response Shapes
+---
 
-When using `--resource`, the default response schema includes:
-`id`, `name`, `email`, `status`, `created_at`, `updated_at`.
+## 📄 License
 
-To get custom field shapes, provide an OpenAPI spec with your schema defined in `components/schemas`.
+Distributed under the MIT License. See `LICENSE` for more information.
 
-## Custom Response Shapes
+---
 
-When using `--resource`, the default response schema includes:
-`id`, `name`, `email`, `status`, `created_at`, `updated_at`.
+## 💖 Star History
 
-To get custom field shapes, provide an OpenAPI spec with your schema defined in `components/schemas`.
+[![Star History Chart](https://api.star-history.com/svg?repos=HayreBuilds/api-mocksmith&type=Date)](https://star-history.com/#HayreBuilds/api-mocksmith&Date)
+
+---
+
+## 🛡️ Badge
+
+Add this to your own project's README to show you use **api-mocksmith**:
+
+[![api-mocksmith](https://img.shields.io/badge/Mocked--with-api--mocksmith-blue)](https://github.com/HayreBuilds/api-mocksmith)
+
+```md
+[![api-mocksmith](https://img.shields.io/badge/Mocked--with-api--mocksmith-blue)](https://github.com/HayreBuilds/api-mocksmith)
+```
