@@ -1,0 +1,60 @@
+openapi: "3.0.0"
+info:
+  title: Petstore API
+  version: "1.0.0"
+servers:
+  - url: /api
+paths:
+  /pets:
+    get:
+      summary: List all pets
+      responses:
+        "200":
+          description: A list of pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+    post:
+      summary: Create a pet
+      responses:
+        "201":
+          description: Created pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+  /pets/{id}:
+    get:
+      summary: Get a pet by ID
+      responses:
+        "200":
+          description: A pet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        species:
+          type: string
+          enum: [dog, cat, bird, fish, rabbit]
+        age:
+          type: integer
+          minimum: 0
+          maximum: 30
+        owner_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
