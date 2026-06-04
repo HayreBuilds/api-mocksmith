@@ -132,3 +132,10 @@ When using `--resource`, the default response schema includes:
 `id`, `name`, `email`, `status`, `created_at`, `updated_at`.
 
 To get custom field shapes, provide an OpenAPI spec with your schema defined in `components/schemas`.
+
+## Custom Response Shapes
+
+When using `--resource`, the default response schema includes:
+`id`, `name`, `email`, `status`, `created_at`, `updated_at`.
+
+To get custom field shapes, provide an OpenAPI spec with your schema defined in `components/schemas`.
