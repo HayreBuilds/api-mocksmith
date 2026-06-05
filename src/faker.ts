@@ -123,15 +123,3 @@ export function fakeNestedObject(depth: number, keys: string[]): Record<string, 
   }
   return obj;
 }
-
-export function fakeNestedObject(depth: number, keys: string[]): Record<string, unknown> {
-  const obj: Record<string, unknown> = {};
-  for (const key of keys) {
-    if (depth > 0 && Math.random() > 0.7) {
-      obj[key] = fakeNestedObject(depth - 1, keys.slice(0, 3));
-    } else {
-      obj[key] = fakeValue({ name: key, type: "string" });
-    }
-  }
-  return obj;
-}
